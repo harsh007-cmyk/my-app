@@ -1,14 +1,16 @@
-import React from 'react'
+import React,{useState} from 'react'
 import styled from 'styled-components'
 import CodeEditior from './CodeEditior';
-import { BiEditAlt, BiExport, BiFullscreen, BiImport } from "react-icons/bi";
+import { BiEditAlt, BiExport, BiImport } from "react-icons/bi";
+import { AiOutlineFullscreen } from "react-icons/ai";
+import Select from 'react-select';
 const StyledEditorContainer=styled.div`
     display:flex;
-    flex-direction;
+    flex-direction:column;
 `
 const UpperToolbar=styled.div`
     background:white;
-    height:4rem;
+    height:4rem;    
 
     display:flex;
     align-items:center;
@@ -19,36 +21,41 @@ const Title=styled.div`
     dipslay:flex;
     align-items:center;
     gap:1rem;
+    margin-left:1rem;
     h3{
         font-size:1.3rem;
     }
     button{
         background:transparent:
         font-size:1.3rem;
-        
+        width:2rem;
     }
 
 `
-const Lowertoolbar=styled.div`
-    background:white;
-    height:4rem;
+const LowerToolbar = styled.div`
+  background: white;
+  height: 4rem;
 
-    displayflex;
-    align-itemsf:center;
-    justify-content:space-between;
-    padding:0 2rem;
-    button{
-        background:tranparent;
-        outline:0;
-        border:0;
-        font:size:1.15rem;
-         display:flex;
-         align-items:center;
-         gap:0.75rem;
-         svg{
-            font-size:1.4rem;
-         }
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+
+  button {
+    background: transparent;
+    outline: 0;
+    border: 0;
+    font-size: 1.15rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    svg {
+      font-size: 1.4rem;
     }
+  }
+
 `
 const ButtonGroup=styled.div`
     display:flex;
@@ -62,21 +69,64 @@ const RunCode=styled.button`
     font-weight:700;
     border-radius:2rem;
 `
+const SelectBars=styled.div`
+display: flex;
+align-items: center;
+gap: 3rem;
+margin-right:5rem;
+& > div:nth-of-type(1) {
+  width: 10rem;
+}
+
+& > div:nth-of-type(2) {
+  width: 11rem;
+}
+`
 function EditorContainer() {
+    const [selectedLnaguage,setselectedLnaguage]=useState(null);
+    const [selectedTheme,setselectedTheme]=useState(null);
+    const langOpts=[
+        {value:'c++',label:'C++'},
+        {value:'Java',label:'Java'},
+        {value:'python',label:'Python'},
+        {value:'javaScript',label:'JavaScript'}
+    ]
+    const themeOpts = [
+        { value: "duotoneLight", label: "duotoneLight" },
+        { value: "duotoneDark", label: "duotoneDark" },
+        { value: "xcodeLight", label: "xcodeLight" },
+        { value: "xcodeDark", label: "xcodeDark" },
+        { value: "okaidia", label: "okaidia" },
+        { value: "githubDark", label: "githubDark" },
+        { value: "githubLight", label: "githubLight" },
+        { value: "bespin", label: "bespin" },
+      ];
+      const handleLanguageOpts=(selectedOptions:any)=>{
+                setselectedLnaguage(selectedOptions);
+      }
+      const handleThemeOpts=(selectedOption:any)=>{
+        setselectedTheme(selectedOption);
+      }
   return (
     <StyledEditorContainer>
         <UpperToolbar>
-            <div>
-                <h3>
-                    Stack 
-                </h3>
-            </div>
+            <Title>
+                <h3>Stack Implementaion</h3>
+                <button>
+                    <BiEditAlt/>
+                </button>
+            </Title>
+            <SelectBars>
+                <Select value={selectedLnaguage} onChange={handleLanguageOpts} options={langOpts}/>
+                <Select value={selectedTheme}  onChange={handleThemeOpts} options={themeOpts}/>
+                
+            </SelectBars>
         </UpperToolbar>
         <CodeEditior/>
-            <Lowertoolbar>
-                <div>
+            <LowerToolbar>
+                
                     <button>
-                        <BiFullscreen/>
+                        <AiOutlineFullscreen/>
                         
                     </button>
                     <button>
@@ -87,11 +137,9 @@ function EditorContainer() {
                         <BiExport/>
                         
                     </button>
-                    <button>Import code</button>
-                    <button>Export Code</button>
-                </div>
+                
                 <button>Run Code</button>
-            </Lowertoolbar>
+            </LowerToolbar>
 
     </StyledEditorContainer>
   )

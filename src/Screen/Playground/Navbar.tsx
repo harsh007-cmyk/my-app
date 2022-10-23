@@ -30,16 +30,20 @@ const MainHeading=styled.h1`
 `
 
 function Navbar() {
-    // const navigate=useNavigate();
+    const navigate=useNavigate();
   return (
     <div>
         <NavbarContainer>
-            <NavbarContainer>
-                <Logo src='/logo.png' alt=''/>
-                <MainHeading>
-                    <span>Code</span>Ground
-                </MainHeading>
-            </NavbarContainer>
+        <NavbarContent
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <Logo src='/logo.png' alt='' />
+        <MainHeading>
+          <span>Code</span> Deck
+        </MainHeading>
+      </NavbarContent>
         </NavbarContainer>
     </div>
   )

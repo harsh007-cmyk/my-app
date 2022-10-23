@@ -1,10 +1,10 @@
 import React,{useState,useContext} from 'react';
 import { RiCloseFill } from 'react-icons/ri';
 import { PlaygroundContext } from '../../context/PlaygroundContext';
-import { CloseButton, ModalProps,Header } from '../Modal';
+import { CloseButton, ModalProps,Header,Input } from '../Modal';
 function EditCardTitle({closeModal,identifier}:ModalProps){
   const {folderId,cardId}=identifier;
-  const {folders}=useContext(PlaygroundContext)!;
+  const {folders,editCardTitle}=useContext(PlaygroundContext)!;
   const [title,setTitle]=useState(
     folders[folderId].items[cardId].title as string
   );
@@ -21,10 +21,26 @@ function EditCardTitle({closeModal,identifier}:ModalProps){
         }}
         >
         <RiCloseFill/>
-        <input>
-         input
-        </input>
-    </CloseButton>
+        </CloseButton>
+        <Input>
+        <input type='text' 
+            value={title}
+            onChange={
+              (e)=>{
+                setTitle(e.target.value);
+              }
+            }
+        />
+         <button
+         onClick={()=>{
+          editCardTitle(folderId,cardId,title);
+          closeModal();
+         }}
+         
+         >
+          Update Playground Title 
+         </button>
+         </Input>
     </div>
   )
 }

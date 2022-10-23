@@ -65,35 +65,7 @@ button {
 }
 `
 
-const EditCardModal=({closeModal,isOpen}:{closeModal:()=>void,isOpen:any})=>{
-const PlaygroundFeatures=useContext(PlaygroundContext)!;
-const folders=PlaygroundFeatures.folders;
-console.log(folders);
-const currentFolder=folders[isOpen.identifier.folderId];
-console.log("c",currentFolder.items);
-const currentCard=currentFolder.items[isOpen.identifier.cardId]
 
-return(
-    <>
-    <Header>
-    <h2>
-        Edit Card 
-    </h2>
-    <CloseButton
-        onClick={()=>{
-          closeModal();
-            
-        }}
-        >
-        <RiCloseFill/>
-    </CloseButton>
-</Header>
-<Input>
-        <input type="text" value={currentCard.title}/>
-</Input>
-</>
-  )
-}
 const AddModal=()=>{
   return <div>Add Modal</div>
 

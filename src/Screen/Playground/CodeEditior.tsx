@@ -27,8 +27,9 @@ function CodeEditior() {
     const[theme,setTheme]=useState<any>(githubDark);
     const[lang,setlang]=useState<any>(java)
   return (
-    <div>
+    <CodeEditorContainer>
       <CodeMirror theme={theme} 
+      height='100%'
       extensions={[lang,indentUnit.of("      ")]}
       basicSetup={{
         lineNumbers: true,
@@ -58,7 +59,7 @@ function CodeEditior() {
         
       }}
       />
-    </div>
+    </CodeEditorContainer>
   )
 }
 

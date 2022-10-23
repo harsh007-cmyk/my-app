@@ -12,8 +12,7 @@ a,button,svg{
     transition:all 0.1s ease;
 }
 a:hover,button:hover,svg:hover{
-    opacity:0.8;
-    scale(1.05);                  
+    opacity:0.8;              
 }
 `;
 

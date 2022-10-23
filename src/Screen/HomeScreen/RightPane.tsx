@@ -64,7 +64,6 @@ const AddButton = styled.button`
   transition: all 0.25s ease;
   &:hover {
     opacity: 0.75;
-    scale: 1.1;
   }
 `;
 
@@ -187,8 +186,8 @@ const RightPane = () => {
                   }}>
                   <SmallLogo src='/logo-small.png' alt='' />
                   <CardContent>
-                    <h5></h5>
-                    <p>{card.title}</p>
+                    <h5>{card.title}</h5>
+                    <p>Language: {card.language}</p>
                   </CardContent>
                   <Icons onClick={(e)=>{
                     e.stopPropagation();

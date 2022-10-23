@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
+import { ModalContext } from '../../context/ModalContext';
 const StyledLeftPane = styled.div`
 
 position: fixed;
@@ -60,6 +61,7 @@ const AddNewButton = styled.a`
 `;
 
 const LeftPane = () => {
+  const{openModal}=useContext(ModalContext)!;
   return (
     <StyledLeftPane>
       <ContentContainer>
@@ -68,7 +70,20 @@ const LeftPane = () => {
           <span>Code</span> Deck
         </MainHeading>
         <SubHeading>Code. Compile. Debug.</SubHeading>
-        <AddNewButton>
+        <AddNewButton
+              onClick={()=>{
+                openModal(
+                  {
+                    value:true,
+                    type:"5",
+                    identifier:{
+                      folderId:"",
+                      cardId:"",
+                    }
+                  }
+                )
+              }}
+          >
           <span>+</span> Create New Playground
         </AddNewButton>
       </ContentContainer>
