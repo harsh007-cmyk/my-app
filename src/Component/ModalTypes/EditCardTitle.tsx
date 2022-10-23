@@ -12,8 +12,6 @@ function EditCardTitle({closeModal,identifier}:ModalProps){
     <div>
       <Header>
         <h2>Edit Card Title</h2>
-      </Header>
-        EditCard
          <CloseButton
         onClick={()=>{
           closeModal();
@@ -22,6 +20,7 @@ function EditCardTitle({closeModal,identifier}:ModalProps){
         >
         <RiCloseFill/>
         </CloseButton>
+        </Header>
         <Input>
         <input type='text' 
             value={title}

@@ -7,6 +7,8 @@ import styled from 'styled-components';
 import InputConsole from './InputConsole';
 import { PlaygroundContext } from '../../context/PlaygroundContext';
 import { Console } from 'console';
+import Modal from '../../Component/Modal';
+import { ModalContext } from '../../context/ModalContext';
 const MainApp=styled.div`
   display:grid;
   grid-template-columns:2fr 1fr;
@@ -18,25 +20,29 @@ const Consoles=styled.div`
   grid-template-rows:1fr 1fr;
 
 `
+
 function Playground() {
+  const {isOpen} =useContext(ModalContext)!;
   const { folderId, playgroundId } = useParams();
 
+
   const { folders } = useContext(PlaygroundContext)!;
-  const { title, language } =folders[folderId as string].items[playgroundId as string];
+  const { title, language,code } =folders[folderId as string].items[playgroundId as string];
   
-  
-  console.log("folders",folders);
+
+  console.log("folders",language);
   return (
     <div>
       <Navbar/>
     <MainApp>
-    <EditorContainer/>
+    <EditorContainer title={title} language={language} code={code} folderId={folderId as string} cardId={playgroundId as string}/>
       
         <Consoles>
         <InputConsole/>
         <OutputConsole/>
         </Consoles>
     </MainApp>
+    {isOpen.value === true ? <Modal /> : <></>}
     </div>
 
     

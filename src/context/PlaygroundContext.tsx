@@ -27,32 +27,61 @@ interface PlaygroundContextType{
 }
 
 export const PlaygroundContext = createContext< PlaygroundContextType| null>(null);
-export interface FolderType{
-  [key:string]:{
-    title:string;
-    items:{
-      [key:string]:{
-        title:string;
-        language:string;
-      }
-    }
-  }
+export interface FolderT {
+  title: string;
+  items: {
+    [key: string]: {
+      title: string;
+      language: string;
+    };
+  };
 }
+
+export interface FolderType {
+  [key: string]: FolderT;
+}
+const languageMap: {
+  [key: string]: {
+    defaultCode: string;
+  };
+} = {
+  "c++": {
+    defaultCode:
+      "# include <iostream>\n" +
+      "\n" +
+      "int main() {\n" +
+      "    // your code here\n" +
+      "    return 0;\n" +
+      "}",
+  },
+  python: {
+    defaultCode: "# your python code here",
+  },
+  javascript: {
+    defaultCode: "// your javascript code here",
+  },
+  java: {
+    defaultCode: `import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main\n{\n\tpublic static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t//your code here\n\t}\n}`,
+  },
+};
 const initialData={
   [uuid()]:{
     title:"Folder Title 1",
     items:{
       [uuid()]:{
         title:"Stack Implemenation",
-        language:"C++"
+        language:"C++",
+        code: languageMap["c++"].defaultCode,
       },
       [uuid()]:{
         title:"Queue Implemenation",
-        language:"C++"
+        language:"C++",
+        code: languageMap["c++"].defaultCode,
       },
       [uuid()]:{
         title:"XYZ Implemenation",
-        language:"C++"
+        language:"C++",
+        code: languageMap["c++"].defaultCode,
       },
       
     }
@@ -63,14 +92,18 @@ const initialData={
       [uuid()]:{
           title:"1 implementation",
           language:'C++',
+          
+        code: languageMap["c++"].defaultCode,
       },
       [uuid()]:{
           title:"2 implementation",
           language:'C++',
+          code: languageMap["c++"].defaultCode,
       },
       [uuid()]:{
           title:"3 implementation",
           language:'C++',
+          code: languageMap["c++"].defaultCode,
       },
     }
   }
@@ -82,8 +115,8 @@ export default function PlaygroundProvider({ children }: { children: any }) {
   const [folders,setFolders]=useState(()=>{
     let localData=JSON.parse(localStorage.getItem("playground-data") as string);
     console.log(console.log("local DAta",localData));
-    
-    localData=Object.keys(localData).length===0?null:localData;
+    localData=localData===undefined||localData===null||
+    Object.keys(localData).length===0?null:localData;
     return localData||initialData;    
   })  
   
@@ -117,6 +150,7 @@ useEffect(()=>{
       newState[folderId].items[uuid()]={
         title:cardTitle,
         language:cardLanguage,
+        code:languageMap[cardLanguage].defaultCode,
       };
       return newState;
     })
@@ -135,6 +169,7 @@ useEffect(()=>{
           [uuid()]:{
             title:cardTitle,
             language:cardLanguage,
+            code:languageMap[cardLanguage].defaultCode,
           }
         }
       }

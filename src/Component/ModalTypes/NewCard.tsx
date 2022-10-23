@@ -20,7 +20,7 @@ const InputAndSelect=styled.div`
   button{
     background:#241f21;
     height:2rem;
-    color:whtite;
+    color:white;
     padding:1 2rem;
   }
 `

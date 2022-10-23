@@ -11,30 +11,31 @@ function NewFolder({closeModal,identifier}:ModalProps) {
       <Header>
         <h2>Create New Folder</h2>
         <CloseButton
-          onClick={()=>{
+          onClick={() => {
             closeModal();
           }}
         >
-          <RiCloseFill/>
+          <RiCloseFill />
         </CloseButton>
       </Header>
       <Input>
-      <input
-        type='text' value={title} onChange={(e)=>{
-         setTitle(e.target.value);    
-          
-        }}
-      />
+        <input
+          type='text'
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            createNewFolder(title);
+            closeModal();
+          }}
+        >
+          Create Folder
+        </button>
       </Input>
-      <button
-        onClick={()=>{
-          createNewFolder(title);        
-          closeModal();
-        }}
-      >
-        Create New Folder
-      </button>
-  </div>
+    </div>
   )
 }
 

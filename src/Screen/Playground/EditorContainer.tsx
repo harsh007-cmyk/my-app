@@ -1,9 +1,10 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import styled from 'styled-components'
 import CodeEditior from './CodeEditior';
 import { BiEditAlt, BiExport, BiImport } from "react-icons/bi";
 import { AiOutlineFullscreen } from "react-icons/ai";
 import Select from 'react-select';
+import { ModalContext } from '../../context/ModalContext';
 const StyledEditorContainer=styled.div`
     display:flex;
     flex-direction:column;
@@ -64,7 +65,7 @@ const ButtonGroup=styled.div`
 `
 const RunCode=styled.button`
     padding:0.8rem 2rem;
-    background-color:#0097d7 !important;
+    background-color: violet !important;
     color:white;
     font-weight:700;
     border-radius:2rem;
@@ -82,14 +83,27 @@ margin-right:5rem;
   width: 11rem;
 }
 `
-function EditorContainer() {
-    const [selectedLnaguage,setselectedLnaguage]=useState(null);
-    const [selectedTheme,setselectedTheme]=useState(null);
+const SaveCode = styled.button`
+  padding: 0.4rem 1rem;
+  background-image: linear-gradient(to right, #fbc2eb 0%, #a6c1ee 51%, #fbc2eb 100%);
+  color: white;
+  font-weight: 700;
+  border-radius: 2rem;
+  border: 0;
+`;
+interface EditorContainerProps{
+    title:string
+    language:string;
+    code:string;
+    folderId:string;
+    cardId:string;
+  }
+const EditorContainer:React.FC<EditorContainerProps>=({title,language,code,folderId,cardId})=> {
     const langOpts=[
         {value:'c++',label:'C++'},
         {value:'Java',label:'Java'},
         {value:'python',label:'Python'},
-        {value:'javaScript',label:'JavaScript'}
+        {value:'javascript',label:'JavaScript'}   
     ]
     const themeOpts = [
         { value: "duotoneLight", label: "duotoneLight" },
@@ -101,6 +115,27 @@ function EditorContainer() {
         { value: "githubLight", label: "githubLight" },
         { value: "bespin", label: "bespin" },
       ];
+      console.log("hellwo",language);
+      
+    
+    const [selectedLanguage,setselectedLnaguage]=useState(()=>{
+        for(let i=0;i<langOpts.length;i++){
+            if(langOpts[i].value===language){
+                return langOpts[i];
+            }
+        }
+        
+        return langOpts[0];
+    });
+    console.log("selectee",selectedLanguage);
+    
+    const [selectedTheme,setselectedTheme]=useState({
+        value:"githubDark",
+        label:"githubDark"
+});
+    
+const {openModal}=useContext(ModalContext)!;
+      
       const handleLanguageOpts=(selectedOptions:any)=>{
                 setselectedLnaguage(selectedOptions);
       }
@@ -111,20 +146,34 @@ function EditorContainer() {
     <StyledEditorContainer>
         <UpperToolbar>
             <Title>
-                <h3>Stack Implementaion</h3>
-                <button>
+                <h3>{title}</h3>
+                <button onClick={()=>{
+                    openModal({
+                        value:true,
+                        type:"1",
+                        identifier:{
+                            folderId:folderId,
+                            cardId:cardId
+                        }
+                    })
+                }}>
                     <BiEditAlt/>
                 </button>
             </Title>
             <SelectBars>
-                <Select value={selectedLnaguage} onChange={handleLanguageOpts} options={langOpts}/>
+            <SaveCode>Save Code</SaveCode>
+                <Select value={selectedLanguage} onChange={handleLanguageOpts} options={langOpts}/>
                 <Select value={selectedTheme}  onChange={handleThemeOpts} options={themeOpts}/>
                 
             </SelectBars>
         </UpperToolbar>
-        <CodeEditior/>
+        <CodeEditior
+            currentLanguage={selectedLanguage.value}
+            currentTheme={selectedTheme.value}
+            currentCode={code}
+        />
             <LowerToolbar>
-                
+                <ButtonGroup>
                     <button>
                         <AiOutlineFullscreen/>
                         
@@ -138,7 +187,8 @@ function EditorContainer() {
                         
                     </button>
                 
-                <button>Run Code</button>
+                    </ButtonGroup>
+                    <RunCode>Run Code</RunCode>
             </LowerToolbar>
 
     </StyledEditorContainer>

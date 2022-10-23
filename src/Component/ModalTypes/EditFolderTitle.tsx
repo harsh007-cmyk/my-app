@@ -4,36 +4,39 @@ import { CloseButton, ModalProps,Input,Header } from '../Modal'
 import { PlaygroundContext } from '../../context/PlaygroundContext';
 function EditFolderTitle({closeModal,identifier}:ModalProps) {
   const[title,setTitle]=useState("");
-  const{folderId,cardId}=identifier;
+  const{folderId}=identifier;
   const{folders,editFolderTitle}=useContext(PlaygroundContext)!;
   return (    
-  <div>
+    <div>
     <Header>
-    <CloseButton
-   onClick={()=>{
-     closeModal();
-       
-   }}
-   >
-   <RiCloseFill/>
-   
-</CloseButton>
-</Header>
-<Input>
-   <Input>
-    <input type='text' value={title} onChange={(e)=>{
-      setTitle(e.target.value);
-    }}/>
-    <button onClick={()=>{
-      editFolderTitle(folderId,title);
-      closeModal();
-    }}>
-
-    </button>
-   </Input>
-
-</Input>
-</div>
+      <h2>Edit Folder Title</h2>
+      <CloseButton
+        onClick={() => {
+          closeModal();
+        }}
+      >
+        <RiCloseFill />
+      </CloseButton>
+    </Header>
+    
+    <Input>
+      <input
+        type='text'
+        value={title}
+        onChange={(e) => {
+          setTitle(e.target.value);
+        }}
+      />
+      <button
+        onClick={() => {
+          editFolderTitle(folderId, title);
+          closeModal();
+        }}
+      >
+        Update Title
+      </button>
+    </Input>
+  </div>
   )
 }
 

@@ -9,6 +9,7 @@ import EditCardTitle from "./ModalTypes/EditCardTitle";
 import EditFolderTitle from "./ModalTypes/EditFolderTitle";
 import NewCard from "./ModalTypes/NewCard";
 import NewFolder from "./ModalTypes/NewFolder";
+import NewFolderAndPlaygound from "./ModalTypes/NewFolderAndCard";
 export interface ModalProps{
   closeModal:()=>void;
   identifier:{
@@ -89,6 +90,7 @@ function Modal() {
   {isOpen.type==='2'&& <EditFolderTitle closeModal={closeModal} identifier={isOpen.identifier}/>}
   {isOpen.type==='3'&& <NewCard closeModal={closeModal} identifier={isOpen.identifier}/>}
   {isOpen.type==='4'&& <NewFolder closeModal={closeModal} identifier={isOpen.identifier}/>}
+  {isOpen.type==='5'&& <NewFolderAndPlaygound closeModal={closeModal} identifier={isOpen.identifier}/>}
         </ModalConent>
     </ModalContainer>
   )

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import CodeMirror from "@uiw/react-codemirror";
 import styled from 'styled-components';
  
@@ -23,14 +23,43 @@ const CodeEditorContainer = styled.div`
     height: 100%;
   }
 `;
-function CodeEditior() {
+interface CodeEditorProps{
+  currentLanguage:string;
+  currentTheme:string;
+  currentCode:string;
+}
+
+
+const CodeEditior:React.FC<CodeEditorProps>=({currentLanguage,currentTheme,currentCode})=> {
     const[theme,setTheme]=useState<any>(githubDark);
     const[lang,setlang]=useState<any>(java)
+    useEffect(() => {
+      if (currentLanguage === "c++") setlang(cpp);
+      if (currentLanguage === "python") setlang(python);
+      if (currentLanguage === "java") setlang(java);
+      if (currentLanguage === "javascript") setlang(javascript);
+    }, [currentLanguage]);
+
+    useEffect(() => {
+      if (currentTheme === "duotoneLight") setTheme(duotoneLight);
+      if (currentTheme === "duotoneDark") setTheme(duotoneDark);
+      if (currentTheme === "xcodeLight") setTheme(xcodeLight);
+      if (currentTheme === "xcodeDark") setTheme(xcodeDark);
+      if (currentTheme === "okaidia") setTheme(okaidia);
+      if (currentTheme === "githubLight") setTheme(githubLight);
+      if (currentTheme === "githubDark") setTheme(githubDark);
+      if (currentTheme === "darcula") setTheme(darcula);
+      if (currentTheme === "bespin") setTheme(bespin);
+    }, [currentTheme]);
   return (
     <CodeEditorContainer>
       <CodeMirror theme={theme} 
+      value={currentCode}
       height='100%'
-      extensions={[lang,indentUnit.of("      ")]}
+      extensions={[lang,indentUnit.of("      "),
+      EditorState.tabSize.of(8),
+      EditorState.changeFilter.of(() => true),
+    ]}
       basicSetup={{
         lineNumbers: true,
         highlightActiveLineGutter: true,
