@@ -89,8 +89,7 @@ function Playground() {
     };
     console.log("somethinga")
     const response = await axios.request(options);
-    console.log(response);
-    console.log(response);
+    
     if (response.data.status_id <= 2) {
       const response2 = await getOutput(token);
       return response2.data;
@@ -110,23 +109,22 @@ function Playground() {
     console.log(languageMap);
     
     console.log(currentLanguage, languageMap[currentLanguage]);
-    const language_id = languageMap[currentLanguage].id!;
-    console.log("ID",language_id);
     
+    const language_id = languageMap[currentLanguage].id;
     const source_code = encode(currentCode);
     const stdin = encode(currentInput);
     const token = await postSubmission(language_id, source_code, stdin);
     console.log(token);
-    const res = await getOutput(token);
-    console.log(res);
     
+    const res = await getOutput(token);
+    console.log("Output",res);
     const status_name = res.status.description;
     const decoded_output = decode(res.stdout ? res.stdout : "");
     const decoded_compile_output = decode(
       res.compile_output ? res.compile_output : ""
     );
     const decoded_stderr = decode(res.stderr ? res.stderr : "");
-    
+
     let final_output = "";
     if (res.status_id !== 3) {
       if (decoded_compile_output === "") {
@@ -136,7 +134,9 @@ function Playground() {
       }
     } else {
       final_output = decoded_output;
-    }      
+    }
+    console.log(final_output);
+    
     setCurrentOutput(status_name + "\n\n" + final_output);
     closeModal();
   };

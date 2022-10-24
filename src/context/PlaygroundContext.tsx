@@ -50,7 +50,7 @@ export const languageMap: {
   };
 } = {
   "c++": {
-    id:52,
+    id:54,
     defaultCode:
       "# include <iostream>\n" +
       "\n" +
@@ -60,16 +60,17 @@ export const languageMap: {
       "}",
   },
   'python': {
-    id:50,
+    id:71,
     defaultCode: "# your python code here",
   },
   'javascript': {
-    id:60,
+    id:63,
     defaultCode: "// your javascript code here",
   },
   'java': {
-    id:80,
-    defaultCode: `import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main\n{\n\tpublic static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t//your code here\n\t}\n}`,
+    id:62,
+    defaultCode: `
+    import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main\n{\n\tpublic static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t//your code here\n\t}\n}`,
   },
 };
 const initialData={
