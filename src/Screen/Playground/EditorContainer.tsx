@@ -5,6 +5,7 @@ import { BiEditAlt, BiExport, BiImport } from "react-icons/bi";
 import { AiOutlineFullscreen } from "react-icons/ai";
 import Select from 'react-select';
 import { ModalContext } from '../../context/ModalContext';
+import { languageMap } from '../../context/PlaygroundContext';
 const StyledEditorContainer=styled.div`
     display:flex;
     flex-direction:column;
@@ -42,12 +43,12 @@ const LowerToolbar = styled.div`
   justify-content: space-between;
   padding: 0 2rem;
 
-  button {
+  button,label {
     background: transparent;
     outline: 0;
     border: 0;
     font-size: 1.15rem;
-
+    curson:pointer;
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -93,15 +94,26 @@ const SaveCode = styled.button`
 `;
 interface EditorContainerProps{
     title:string
-    language:string;
-    code:string;
+    currentLanguage: string;
+    currentCode: string;
+    setCurrentLanguage: (newLang: string) => void;
+    setCurrentCode: (newCode: string) => void;
     folderId:string;
     cardId:string;
+    saveCode: () => void;
+     runCode: () => void;
   }
-const EditorContainer:React.FC<EditorContainerProps>=({title,language,code,folderId,cardId})=> {
+const EditorContainer:React.FC<EditorContainerProps>=({title,
+    currentLanguage,
+    currentCode,
+    setCurrentLanguage,
+    setCurrentCode,
+    saveCode,
+    runCode,
+    folderId,cardId})=> {
     const langOpts=[
         {value:'c++',label:'C++'},
-        {value:'Java',label:'Java'},
+        {value:'java',label:'Java'},
         {value:'python',label:'Python'},
         {value:'javascript',label:'JavaScript'}   
     ]
@@ -115,12 +127,12 @@ const EditorContainer:React.FC<EditorContainerProps>=({title,language,code,folde
         { value: "githubLight", label: "githubLight" },
         { value: "bespin", label: "bespin" },
       ];
-      console.log("hellwo",language);
+      console.log("hellwo",currentLanguage);
       
     
     const [selectedLanguage,setselectedLnaguage]=useState(()=>{
         for(let i=0;i<langOpts.length;i++){
-            if(langOpts[i].value===language){
+            if(langOpts[i].value===currentLanguage){
                 return langOpts[i];
             }
         }
@@ -138,10 +150,35 @@ const {openModal}=useContext(ModalContext)!;
       
       const handleLanguageOpts=(selectedOptions:any)=>{
                 setselectedLnaguage(selectedOptions);
+                setCurrentLanguage(selectedOptions.value);
+                setCurrentCode(languageMap[selectedOptions.value].defaultCode);
       }
       const handleThemeOpts=(selectedOption:any)=>{
         setselectedTheme(selectedOption);
       }
+
+      const getFile=(e:any)=>{
+        const input=e.target;
+        if("files" in input &&input.files.length>0){
+            placeFileContent(input.files[0]);
+        }
+      }
+      const placeFileContent = (file: any) => {
+        readFileContent(file)
+          .then((content) => {
+            setCurrentCode(content as string);
+          })
+          .catch((error) => console.log(error));
+      };
+      function readFileContent(file: any) {
+        const reader = new FileReader();
+        return new Promise((resolve, reject) => {
+          reader.onload = (event) => resolve(event!.target!.result);
+          reader.onerror = (error) => reject(error);
+          reader.readAsText(file);
+        });
+      }
+
   return (
     <StyledEditorContainer>
         <UpperToolbar>
@@ -161,7 +198,11 @@ const {openModal}=useContext(ModalContext)!;
                 </button>
             </Title>
             <SelectBars>
-            <SaveCode>Save Code</SaveCode>
+            <SaveCode
+                onClick={()=>{
+                    saveCode();
+                }}
+            >Save Code</SaveCode>
                 <Select value={selectedLanguage} onChange={handleLanguageOpts} options={langOpts}/>
                 <Select value={selectedTheme}  onChange={handleThemeOpts} options={themeOpts}/>
                 
@@ -170,25 +211,26 @@ const {openModal}=useContext(ModalContext)!;
         <CodeEditior
             currentLanguage={selectedLanguage.value}
             currentTheme={selectedTheme.value}
-            currentCode={code}
+            currentCode={currentCode}
+            setCurrentCode={setCurrentCode}
         />
             <LowerToolbar>
                 <ButtonGroup>
-                    <button>
-                        <AiOutlineFullscreen/>
-                        
-                    </button>
-                    <button>
-                        <BiImport/>
-                        
-                    </button>
-                    <button>
-                        <BiExport/>
-                        
-                    </button>
-                
-                    </ButtonGroup>
-                    <RunCode>Run Code</RunCode>
+                <label>
+            <input type='file' accept='.txt' style={{ display: "none" }}
+              onChange={(e) => {
+                getFile(e);
+              }}
+            />
+            <BiImport /> Import Code
+          </label>
+        
+             </ButtonGroup>
+                    <RunCode
+                        onClick={()=>{
+                            runCode();
+                        }}
+                    >Run Code</RunCode>
             </LowerToolbar>
 
     </StyledEditorContainer>

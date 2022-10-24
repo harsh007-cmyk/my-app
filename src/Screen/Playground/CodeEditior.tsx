@@ -27,10 +27,11 @@ interface CodeEditorProps{
   currentLanguage:string;
   currentTheme:string;
   currentCode:string;
+  setCurrentCode:(newCode:string)=>void;
 }
 
 
-const CodeEditior:React.FC<CodeEditorProps>=({currentLanguage,currentTheme,currentCode})=> {
+const CodeEditior:React.FC<CodeEditorProps>=({currentLanguage,currentTheme,currentCode,setCurrentCode})=> {
     const[theme,setTheme]=useState<any>(githubDark);
     const[lang,setlang]=useState<any>(java)
     useEffect(() => {
@@ -55,6 +56,9 @@ const CodeEditior:React.FC<CodeEditorProps>=({currentLanguage,currentTheme,curre
     <CodeEditorContainer>
       <CodeMirror theme={theme} 
       value={currentCode}
+      onChange={(value:string)=>{
+        setCurrentCode(value);
+      }}
       height='100%'
       extensions={[lang,indentUnit.of("      "),
       EditorState.tabSize.of(8),

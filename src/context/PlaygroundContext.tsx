@@ -23,8 +23,11 @@ interface PlaygroundContextType{
     editFolderTitle:(folderId:string,newFolderTitle:string)=>void;
     deleteCard:(folderId:string,cardId:string)=>void;
     deletefolder:(folderId:string)=>void;
+    savePlayground:(folderId:string,cardId:string,newCode:string,newLanguage:string
+    )=>void;
 
-}
+  }
+
 
 export const PlaygroundContext = createContext< PlaygroundContextType| null>(null);
 export interface FolderT {
@@ -40,12 +43,14 @@ export interface FolderT {
 export interface FolderType {
   [key: string]: FolderT;
 }
-const languageMap: {
+export const languageMap: {
   [key: string]: {
     defaultCode: string;
+    id:number;
   };
 } = {
   "c++": {
+    id:52,
     defaultCode:
       "# include <iostream>\n" +
       "\n" +
@@ -54,13 +59,16 @@ const languageMap: {
       "    return 0;\n" +
       "}",
   },
-  python: {
+  'python': {
+    id:50,
     defaultCode: "# your python code here",
   },
-  javascript: {
+  'javascript': {
+    id:60,
     defaultCode: "// your javascript code here",
   },
-  java: {
+  'java': {
+    id:80,
     defaultCode: `import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main\n{\n\tpublic static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t//your code here\n\t}\n}`,
   },
 };
@@ -70,17 +78,17 @@ const initialData={
     items:{
       [uuid()]:{
         title:"Stack Implemenation",
-        language:"C++",
+        language:"c++",
         code: languageMap["c++"].defaultCode,
       },
       [uuid()]:{
         title:"Queue Implemenation",
-        language:"C++",
+        language:"c++",
         code: languageMap["c++"].defaultCode,
       },
       [uuid()]:{
         title:"XYZ Implemenation",
-        language:"C++",
+        language:"c++",
         code: languageMap["c++"].defaultCode,
       },
       
@@ -91,18 +99,18 @@ const initialData={
     items:{
       [uuid()]:{
           title:"1 implementation",
-          language:'C++',
+          language:'c++',
           
         code: languageMap["c++"].defaultCode,
       },
       [uuid()]:{
           title:"2 implementation",
-          language:'C++',
+          language:'c++',
           code: languageMap["c++"].defaultCode,
       },
       [uuid()]:{
           title:"3 implementation",
-          language:'C++',
+          language:'c++',
           code: languageMap["c++"].defaultCode,
       },
     }
@@ -114,7 +122,7 @@ export default function PlaygroundProvider({ children }: { children: any }) {
  
   const [folders,setFolders]=useState(()=>{
     let localData=JSON.parse(localStorage.getItem("playground-data") as string);
-    console.log(console.log("local DAta",localData));
+    // console.log(console.log("local DAta",localData));
     localData=localData===undefined||localData===null||
     Object.keys(localData).length===0?null:localData;
     return localData||initialData;    
@@ -209,6 +217,19 @@ useEffect(()=>{
       return newState;
     })
   }
+  const savePlayground = (
+    folderId: string,
+    cardId: string,
+    newCode: string,
+    newLanguage: string
+  ) => {
+    setFolders((oldState: any) => {
+      const newState = { ...oldState };
+      newState[folderId].items[cardId].code = newCode;
+      newState[folderId].items[cardId].language = newLanguage;
+      return newState;
+    });
+  };
   const makeAvailableGlobally:PlaygroundContextType={
     folders:folders,
     setFolders:setFolders,
@@ -219,6 +240,7 @@ useEffect(()=>{
     editFolderTitle:editFolderTitle,
     deleteCard:deleteCard,
     deletefolder:deletefolder,
+    savePlayground:savePlayground,
   }
   return (
     <PlaygroundContext.Provider value={makeAvailableGlobally}>

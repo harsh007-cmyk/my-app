@@ -3,7 +3,7 @@ import {RiCloseFill} from 'react-icons/ri';
 import {useContext} from 'react';
 import { ModalContext } from "../context/ModalContext";
 import { isJsxOpeningElement } from "typescript";
-
+import Loading from "./ModalTypes/Loading";
 import { PlaygroundContext } from "../context/PlaygroundContext";
 import EditCardTitle from "./ModalTypes/EditCardTitle";
 import EditFolderTitle from "./ModalTypes/EditFolderTitle";
@@ -86,11 +86,12 @@ function Modal() {
     return (
     <ModalContainer>
         <ModalConent>
-  {isOpen.type==='1'&& <EditCardTitle closeModal={closeModal} identifier={isOpen.identifier}/>}
-  {isOpen.type==='2'&& <EditFolderTitle closeModal={closeModal} identifier={isOpen.identifier}/>}
-  {isOpen.type==='3'&& <NewCard closeModal={closeModal} identifier={isOpen.identifier}/>}
-  {isOpen.type==='4'&& <NewFolder closeModal={closeModal} identifier={isOpen.identifier}/>}
-  {isOpen.type==='5'&& <NewFolderAndPlaygound closeModal={closeModal} identifier={isOpen.identifier}/>}
+  {isOpen.type==='1'&& (<EditCardTitle closeModal={closeModal} identifier={isOpen.identifier}/>)}
+  {isOpen.type==='2'&& (<EditFolderTitle closeModal={closeModal} identifier={isOpen.identifier}/>)}
+  {isOpen.type==='3'&& (<NewCard closeModal={closeModal} identifier={isOpen.identifier}/>)}
+  {isOpen.type==='4'&& (<NewFolder closeModal={closeModal} identifier={isOpen.identifier}/>)}
+  {isOpen.type==='5'&& (<NewFolderAndPlaygound closeModal={closeModal} identifier={isOpen.identifier}/>)}
+  {isOpen.type==='6'&&<Loading/>}
         </ModalConent>
     </ModalContainer>
   )
