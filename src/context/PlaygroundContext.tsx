@@ -119,6 +119,7 @@ const initialData={
 }
 
 export default function PlaygroundProvider({ children }: { children: any }) {
+  console.log("HARSHP")
  console.log("children",children);
  
   const [folders,setFolders]=useState(()=>{
