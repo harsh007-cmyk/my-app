@@ -18,7 +18,7 @@ function EditCardTitle({closeModal,identifier}:ModalProps){
             
         }}
         >
-        <RiCloseFill/>
+        <RiCloseFill color="grey"/>
         </CloseButton>
         </Header>
         <Input>

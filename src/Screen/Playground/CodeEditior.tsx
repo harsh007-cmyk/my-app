@@ -28,12 +28,18 @@ interface CodeEditorProps{
   currentTheme:string;
   currentCode:string;
   setCurrentCode:(newCode:string)=>void;
+  fullScreenHandle:any
 }
 
 
-const CodeEditior:React.FC<CodeEditorProps>=({currentLanguage,currentTheme,currentCode,setCurrentCode})=> {
+const CodeEditior:React.FC<CodeEditorProps>=({currentLanguage,currentTheme,currentCode,setCurrentCode,fullScreenHandle})=> {
+    if(fullScreenHandle.active){
+      var scSize='130%'
+    }else{
+      scSize="100%";
+    }
     const[theme,setTheme]=useState<any>(githubDark);
-    const[lang,setlang]=useState<any>(java)
+    const[lang,setlang]=useState<any>(cpp)
     useEffect(() => {
       if (currentLanguage === "c++") setlang(cpp);
       if (currentLanguage === "python") setlang(python);
@@ -56,10 +62,10 @@ const CodeEditior:React.FC<CodeEditorProps>=({currentLanguage,currentTheme,curre
     <CodeEditorContainer>
       <CodeMirror theme={theme} 
       value={currentCode}
-      onChange={(value:string)=>{
-        setCurrentCode(value);
+      onChange={(value:string)=>{    
+        setCurrentCode(value);   
       }}
-      height='100%'
+      height={scSize}
       extensions={[lang,indentUnit.of("      "),
       EditorState.tabSize.of(8),
       EditorState.changeFilter.of(() => true),

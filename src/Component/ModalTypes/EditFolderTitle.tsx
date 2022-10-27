@@ -15,7 +15,7 @@ function EditFolderTitle({closeModal,identifier}:ModalProps) {
           closeModal();
         }}
       >
-        <RiCloseFill />
+        <RiCloseFill color="grey"/>
       </CloseButton>
     </Header>
     

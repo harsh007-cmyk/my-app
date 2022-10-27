@@ -5,7 +5,6 @@ import OutputConsole from './OutputConsole'
 import {useParams} from "react-router-dom";
 import styled from 'styled-components';
 import InputConsole from './InputConsole';
-import { Console } from 'console';
 import Modal from '../../Component/Modal';
 import { ModalContext } from '../../context/ModalContext';
 import { languageMap,PlaygroundContext } from '../../context/PlaygroundContext';

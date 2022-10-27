@@ -4,22 +4,29 @@ import { IoTrashOutline } from "react-icons/io5";
 import { BiEditAlt } from "react-icons/bi";
 import {ModalContext} from '../../context/ModalContext';
 import { PlaygroundContext } from "../../context/PlaygroundContext";
+import Toggle from "../../Component/DarkLight";
 import { useNavigate } from "react-router-dom";
+interface RightPaneProps{
+  readonly bgmode:boolean;
+}
 interface HeaderProps {
   readonly variant: string;
+  readonly bgmode:boolean;
 }
 
 interface HeadingProps {
   readonly size: string;
 }
 
-const StyledRightPane = styled.div`
+const StyledRightPane = styled.div<RightPaneProps>`
   padding: 2rem;
-  background: #fafafa;
+  background:${(props)=>props.bgmode?"#182747":"#D8D8D8"};
+  color:${(props)=>props.bgmode?"#EEEEEE":"#0F0E0E"};
   position:absolute;
   right:0;
   rop:0;
   width:60%;
+  height:100%;
 `;
 
 const Header = styled.div<HeaderProps>`
@@ -27,6 +34,7 @@ const Header = styled.div<HeaderProps>`
   align-items: center;
   justify-content: space-between;
   position: relative;
+  background:${(props)=>props.bgmode?"#182747":"#D8D8D8"};
   margin-bottom: ${(props) =>
     props.variant === "main" ? "2.75rem" : "1.4rem"};
   &::after {
@@ -48,11 +56,12 @@ const Heading = styled.h3<HeadingProps>`
   }
 `;
 
-const AddButton = styled.button`
+const AddButton = styled.button<RightPaneProps>`
   display: flex;
   gap: 0.5rem;
   align-items: center;
   background: transparent;
+  color:${(props)=>props.bgmode?"#EEEEEE":"black"};
   outline: 0;
   border: 0;
   font-size: 1.1rem;
@@ -116,18 +125,21 @@ const FolderButtons=styled.div`
 `
 const RightPane = () => {
   const navigate=useNavigate();
+  const{mode}=useContext(PlaygroundContext)!; 
   const MakeAvailableGlobally=useContext(ModalContext)!;
   const {openModal}=MakeAvailableGlobally;
  const PlaygroundFeatures=useContext(PlaygroundContext)!;
  const{folders}=PlaygroundFeatures;
  const {deletefolder,deleteCard}=PlaygroundFeatures;
   return (
-    <StyledRightPane>
-      <Header variant='main'>
+    <StyledRightPane bgmode={mode}>
+      <Header variant='main' bgmode={mode}>
         <Heading size='large'>
           My <span>Playground</span>
         </Heading>
-        <AddButton onClick={()=>{
+        <Toggle/>
+        <AddButton bgmode={mode}
+        onClick={()=>{
           openModal({
             value:true,
           type:"4",
@@ -143,7 +155,7 @@ const RightPane = () => {
       {Object.entries(folders).map(([folderId,folder]:[folderId:string,folder:any])=>{
         return (
           <Folder>
-          <Header variant='folder'>
+          <Header variant='folder' bgmode={mode}>
             <Heading size='small'>{folder.title}</Heading>
             <FolderButtons>
               <Icons>
@@ -163,7 +175,8 @@ const RightPane = () => {
                 }}/>
               </Icons>
             </FolderButtons>
-            <AddButton onClick={()=>
+            <AddButton bgmode={mode}
+            onClick={()=>
               openModal({
                 value:true,
                 type:"3",

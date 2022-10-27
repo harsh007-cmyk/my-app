@@ -33,7 +33,7 @@ function NewFolderAndPlaygound({closeModal,identifier}:ModalProps){
         { value: "javascript", label: "JavaScript" },
         { value: "python", label: "Python" },
     ]
-    const{createNewFolderAndPlaygruond}=useContext(PlaygroundContext)!;
+    const{createNewFolderAndPlaygruond,customStyles}=useContext(PlaygroundContext)!;
     const [folderTitle,setFolderTitle]=useState("");
     const[lang,setLang]=useState(langs[0]);
     const[cardTitle,setcardTitle]=useState("");
@@ -48,7 +48,7 @@ function NewFolderAndPlaygound({closeModal,identifier}:ModalProps){
                 <CloseButton onClick={()=>{
                     closeModal();
                 }}>
-                    <RiCloseFill/>
+                    <RiCloseFill color="grey"/>
 
                 </CloseButton>
 
@@ -63,13 +63,13 @@ function NewFolderAndPlaygound({closeModal,identifier}:ModalProps){
                 <input type="text" value={cardTitle} onChange={(e)=>{
                     setcardTitle(e.target.value)
                 }} />
-                <Select options={langs} value={lang} onChange={handleLang}/>
+                <Select styles={customStyles} options={langs} value={lang} onChange={handleLang}/>
                 <button onClick={()=>{
                     createNewFolderAndPlaygruond(
                         folderTitle,
                         cardTitle,
                         lang.value
-                    )
+                    )   
                     closeModal();
                 }}>
                         Create

@@ -5,6 +5,8 @@ import {v4 as uuid} from 'uuid';
 
 interface PlaygroundContextType{
     folders:any;
+    bgColor:string;
+    setBgColor:(bgcolor:string)=>void
     setFolders:any;
     createNewFolder:(folderTitle:string)=>void;
     createNewPlaygound:(folderId:string,
@@ -25,6 +27,9 @@ interface PlaygroundContextType{
     deletefolder:(folderId:string)=>void;
     savePlayground:(folderId:string,cardId:string,newCode:string,newLanguage:string
     )=>void;
+    mode:boolean;
+    setMode:(mode:boolean)=>void;
+    customStyles:any;
 
   }
 
@@ -121,10 +126,10 @@ const initialData={
 export default function PlaygroundProvider({ children }: { children: any }) {
   console.log("HARSHP")
  console.log("children",children);
- 
+ const [mode,setMode]=useState(false);
+ const[bgColor,setBgColor]=useState("Ligher");
   const [folders,setFolders]=useState(()=>{
     let localData=JSON.parse(localStorage.getItem("playground-data") as string);
-    // console.log(console.log("local DAta",localData));
     localData=localData===undefined||localData===null||
     Object.keys(localData).length===0?null:localData;
     return localData||initialData;    
@@ -232,8 +237,38 @@ useEffect(()=>{
       return newState;
     });
   };
+  const Changebg=(bgColor:string)=>{
+      if(bgColor==="Ligher"){
+        setBgColor("Darker");
+      }else{
+        setBgColor("Lighter");
+      }
+  }
+  const customStyles = {
+    option: (provided:any, state:any) => ({
+      ...provided,
+      backgroundColor:mode?state.isSelected?"black":"grey":state.isSelected?"#A9BA9D":"white",
+      
+      "&:hover":{
+        backgroundColor:mode?state.isSelected?"":"#484848":state.isSelected?"":"grey",
+
+      }
+    }),
+    control: (provided:any) => ({
+      ...provided,
+      marginTop: "5%",
+      color:"red",
+      backgroundColor:mode?"grey":"white",
+        
+      "&:hover":{
+        backgroundColor:'white',   
+      }
+    })
+  }
   const makeAvailableGlobally:PlaygroundContextType={
     folders:folders,
+    bgColor:bgColor,
+    setBgColor:Changebg,
     setFolders:setFolders,
     createNewFolder:createNewFolder,
     createNewPlaygound:createNewPlaygound,
@@ -243,6 +278,9 @@ useEffect(()=>{
     deleteCard:deleteCard,
     deletefolder:deletefolder,
     savePlayground:savePlayground,
+    mode:mode,
+    setMode:setMode,
+    customStyles:customStyles,
   }
   return (
     <PlaygroundContext.Provider value={makeAvailableGlobally}>

@@ -5,10 +5,10 @@ import { CloseButton, ModalProps } from '../Modal'
 import {Header} from '../Modal'
 import Select from 'react-select';
 import styled from 'styled-components';
-
-const InputAndSelect=styled.div`
+import { darkModePropType } from '../../Screen/Playground/EditorContainer';
+const InputAndSelect=styled.div<darkModePropType>`
   display:grid;
-  grid-template-columns:1fr 0.5fr;
+  background:${(props)=>props.bgmode?'#0F0E0E':"#DCD7C9"};
   row-gap:1rem;
   column-gap:1rem;
   margin-top:1.2rem;
@@ -26,6 +26,7 @@ const InputAndSelect=styled.div`
 `
 function NewCard({closeModal,identifier}:ModalProps) {
   const{folderId}=identifier;
+  const {mode,customStyles}=useContext(PlaygroundContext)!;
   const [title,setTitle]=useState("");
   const{createNewPlaygound}=useContext(PlaygroundContext)!;
   const languageOptions=[
@@ -46,16 +47,17 @@ function NewCard({closeModal,identifier}:ModalProps) {
         <CloseButton onClick={()=>{
           closeModal();
         }}>
-          <RiCloseFill/>
+          <RiCloseFill color="grey"/>
         </CloseButton>
       </Header>
-      <InputAndSelect>
+      <InputAndSelect bgmode={mode}>
         <input type="text" value={title} onChange={
           (e)=>{
             setTitle(e.target.value);
           }
         } />
         <Select 
+          styles={customStyles}
           options={languageOptions}
           value={lang}
           onChange={handleLang}

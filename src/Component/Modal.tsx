@@ -10,6 +10,7 @@ import EditFolderTitle from "./ModalTypes/EditFolderTitle";
 import NewCard from "./ModalTypes/NewCard";
 import NewFolder from "./ModalTypes/NewFolder";
 import NewFolderAndPlaygound from "./ModalTypes/NewFolderAndCard";
+import { darkModePropType } from "../Screen/Playground/EditorContainer";
 export interface ModalProps{
   closeModal:()=>void;
   identifier:{
@@ -17,8 +18,8 @@ export interface ModalProps{
     cardId:string;
   }
 }
-export const ModalContainer=styled.div`
-  background:rgba(0,0,0,0.4);
+export const ModalContainer=styled.div<darkModePropType>`
+  background:rgba(0 0 0 0.4);
   width:100%;
   height:100vh;
   position:fixed;
@@ -29,11 +30,13 @@ export const ModalContainer=styled.div`
     align-items:center;
     justify-content:center;
   `
-  const ModalConent=styled.div`
-  background:white;
+  const ModalConent=styled.div<darkModePropType>`
+  background:${(props)=>props.bgmode?'#0F0E0E':"#DCD7C9"};
+  color:${(props)=>props.bgmode?"white":"black"};  
   width:35%;
   padding:2rem;
   border-radius:10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   `
  export  const CloseButton=styled.button`
     background:transparent;
@@ -67,25 +70,21 @@ button {
 `
 
 
-const AddModal=()=>{
-  return <div>Add Modal</div>
 
-}
-const AnotherModal=()=>{
-  return <div>Another Modal</div>
-}
 
 
 function Modal() {
     const ModalFeatures=useContext(ModalContext)!;
     const {closeModal}=ModalFeatures;
     const isOpen=ModalFeatures.isOpen;
-
-
+    const{mode}=useContext(PlaygroundContext)!;
+  const handleClick=(e:any)=>{
+    e.stopPropagation();
+  }   
 
     return (
-    <ModalContainer>
-        <ModalConent>
+    <ModalContainer bgmode={mode} onClick={closeModal}>
+        <ModalConent bgmode={mode} onClick={handleClick}>   
   {isOpen.type==='1'&& (<EditCardTitle closeModal={closeModal} identifier={isOpen.identifier}/>)}
   {isOpen.type==='2'&& (<EditFolderTitle closeModal={closeModal} identifier={isOpen.identifier}/>)}
   {isOpen.type==='3'&& (<NewCard closeModal={closeModal} identifier={isOpen.identifier}/>)}
