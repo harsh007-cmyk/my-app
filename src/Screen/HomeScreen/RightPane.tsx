@@ -26,7 +26,7 @@ const StyledRightPane = styled.div<RightPaneProps>`
   right:0;
   rop:0;
   width:60%;
-  height:100%;
+  min-height:100vh;
 `;
 
 const Header = styled.div<HeaderProps>`
