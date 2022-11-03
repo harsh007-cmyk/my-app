@@ -18,12 +18,10 @@ const ContentContainer = styled.div`
 `;
 
 const Page404 = () => {
-  // initialize useNavigate hook
   const navigate = useNavigate();
 
   useEffect(() => {
     setTimeout(() => {
-      // redirect to home page
       navigate("/");
     }, 3000);
   });

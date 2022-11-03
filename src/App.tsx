@@ -1,5 +1,5 @@
 import React from 'react';
-import GlobalStyles from './Styles/global'
+import BalStyles from './Styles/global'
 import HomeScreen from './Screen/HomeScreen/HomeScreen';
 import ModalProvider from './context/ModalContext';
 import PlaygroundProvider from './context/PlaygroundContext';
@@ -11,11 +11,10 @@ function App() {
     <div>
       <PlaygroundProvider>
       <ModalProvider>
-      <GlobalStyles/>
+      <BalStyles/>
       <BrowserRouter>
         <Routes>
         <Route path='/' element={<HomeScreen/>}/>
-        
         <Route path='/code/:folderId/:playgroundId' element={<Playground/>}/>
         <Route path="*" element={<Page404/>}/>
         </Routes>
@@ -25,5 +24,7 @@ function App() {
     </div>
   );
 }
+
+
 
 export default App;

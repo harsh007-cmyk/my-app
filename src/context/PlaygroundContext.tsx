@@ -5,8 +5,6 @@ import {v4 as uuid} from 'uuid';
 
 interface PlaygroundContextType{
     folders:any;
-    bgColor:string;
-    setBgColor:(bgcolor:string)=>void
     setFolders:any;
     createNewFolder:(folderTitle:string)=>void;
     createNewPlaygound:(folderId:string,
@@ -34,19 +32,29 @@ interface PlaygroundContextType{
   }
 
 
-export const PlaygroundContext = createContext< PlaygroundContextType| null>(null);
+export const PlaygroundContext = createContext<PlaygroundContextType| null>(null);
 export interface FolderT {
   title: string;
   items: {
     [key: string]: {
       title: string;
       language: string;
+      code:string;
     };
   };
 }
-
+    
 export interface FolderType {
-  [key: string]: FolderT;
+  [key: string]:{
+    title: string;
+    items: {
+      [key: string]: {
+        title: string;
+        language: string;
+        code:string;
+      };
+    };
+  }
 }
 export const languageMap: {
   [key: string]: {
@@ -78,7 +86,7 @@ export const languageMap: {
     import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\npublic class Main\n{\n\tpublic static void main (String[] args) throws java.lang.Exception\n\t{\n\t\t//your code here\n\t}\n}`,
   },
 };
-const initialData={
+const initialData:FolderType={
   [uuid()]:{
     title:"Folder Title 1",
     items:{
@@ -124,10 +132,11 @@ const initialData={
 }
 
 export default function PlaygroundProvider({ children }: { children: any }) {
-  console.log("HARSHP")
+  console.log("Code editor");
  console.log("children",children);
  const [mode,setMode]=useState(false);
- const[bgColor,setBgColor]=useState("Ligher");
+
+
   const [folders,setFolders]=useState(()=>{
     let localData=JSON.parse(localStorage.getItem("playground-data") as string);
     localData=localData===undefined||localData===null||
@@ -237,13 +246,7 @@ useEffect(()=>{
       return newState;
     });
   };
-  const Changebg=(bgColor:string)=>{
-      if(bgColor==="Ligher"){
-        setBgColor("Darker");
-      }else{
-        setBgColor("Lighter");
-      }
-  }
+
   const customStyles = {
     option: (provided:any, state:any) => ({
       ...provided,
@@ -261,14 +264,12 @@ useEffect(()=>{
       backgroundColor:mode?"grey":"white",
         
       "&:hover":{
-        backgroundColor:'white',   
+        backgroundColor:'white',       
       }
     })
   }
   const makeAvailableGlobally:PlaygroundContextType={
     folders:folders,
-    bgColor:bgColor,
-    setBgColor:Changebg,
     setFolders:setFolders,
     createNewFolder:createNewFolder,
     createNewPlaygound:createNewPlaygound,

@@ -81,7 +81,10 @@ function Modal() {
   const handleClick=(e:any)=>{
     e.stopPropagation();
   }   
-
+  console.log("isOpenIdentifierr",isOpen.identifier);   
+  
+       
+  
     return (
     <ModalContainer bgmode={mode} onClick={closeModal}>
         <ModalConent bgmode={mode} onClick={handleClick}>   

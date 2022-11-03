@@ -72,7 +72,7 @@ const LeftPane = () => {
         <SubHeading>Code. Compile. Debug.</SubHeading>
         <AddNewButton
               onClick={()=>{
-                openModal(
+                openModal(       
                   {
                     value:true,
                     type:"5",

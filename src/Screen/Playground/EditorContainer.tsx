@@ -131,7 +131,6 @@ const EditorContainer:React.FC<EditorContainerProps>=({title,
     saveCode,
     runCode,
     folderId,cardId})=> {
-      const [codes,setCodes]=useState("");
     const langOpts=[
         {value:'c++',label:'C++'},
         {value:'java',label:'Java'},
@@ -150,7 +149,6 @@ const EditorContainer:React.FC<EditorContainerProps>=({title,
       ];
       console.log("hellwo",currentLanguage);
     
-    const [full,setFull]=useState("min");
     
     const [selectedLanguage,setselectedLnaguage]=useState(()=>{
         for(let i=0;i<langOpts.length;i++){
@@ -202,7 +200,6 @@ const {openModal}=useContext(ModalContext)!;
         });
       }
       const fullScreenHandle=useFullScreenHandle();
-      console.log("full",full);
      const {mode}=useContext(PlaygroundContext)!;
     
      const customStyles = {

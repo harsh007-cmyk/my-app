@@ -24,7 +24,8 @@ export default function ModalProvider({ children }: { children: any }) {
       cardId:"",
     }
   }
-  const [isOpen, setIsOpen] = useState<PopupFields>({ ...initialPopupFields});
+  
+  const [isOpen, setIsOpen] = useState<PopupFields>(initialPopupFields);   
   const openModal=(value:PopupFields)=>{
     setIsOpen(value);
   }

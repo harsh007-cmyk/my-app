@@ -2,6 +2,9 @@ import React,{useState,useContext} from 'react';
 import { RiCloseFill } from 'react-icons/ri';
 import { PlaygroundContext } from '../../context/PlaygroundContext';
 import { CloseButton, ModalProps,Header,Input } from '../Modal';
+
+
+
 function EditCardTitle({closeModal,identifier}:ModalProps){
   const {folderId,cardId}=identifier;
   const {folders,editCardTitle}=useContext(PlaygroundContext)!;

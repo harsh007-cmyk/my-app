@@ -34,7 +34,7 @@ interface CodeEditorProps{
 
 const CodeEditior:React.FC<CodeEditorProps>=({currentLanguage,currentTheme,currentCode,setCurrentCode,fullScreenHandle})=> {
     if(fullScreenHandle.active){
-      var scSize='130%'
+      var scSize='100vh';
     }else{
       scSize="100%";
     }

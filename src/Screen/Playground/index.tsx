@@ -53,7 +53,7 @@ function Playground() {
   const postSubmission=async(
     language_id:number,
     source_code:string,
-    stdin:string
+    stdin:string,
   )=>{
     const options = {
       method: 'POST',
@@ -86,9 +86,9 @@ function Playground() {
         'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
       }
     };
-    console.log("somethinga")
+    console.log("posting");
     const response = await axios.request(options);
-    
+    console.log(response,"response getting");
     if (response.data.status_id <= 2) {
       const response2 = await getOutput(token);
       return response2.data;
